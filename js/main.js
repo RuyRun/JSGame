@@ -1,4 +1,5 @@
 import { Player } from "./models/player.class.js";
+import { Background } from "./models/background.class.js";
 
 window.addEventListener('load', function () {
     const canvas = this.document.getElementById('canvas1');
@@ -10,14 +11,19 @@ window.addEventListener('load', function () {
         constructor(width, height) {
             this.width = width;
             this.height = height;
+            this.speed = 2;
+            this.background = new Background(this);
             this.player = new Player(this);
+            
         }
 
         update() {
+            this.background.update();
             this.player.update();
         }
 
         draw(context) {
+            this.background.draw(context);
             this.player.drawImage(context);
         }
     }
