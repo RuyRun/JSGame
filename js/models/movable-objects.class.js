@@ -26,7 +26,7 @@ export class MovableObject extends DrawObjects {
         });
     }
     onGround() {
-        return this.y >= this.game.height - this.height;
+        return this.y >= this.game.height - this.height - this.game.groundMargin;
     }
     /**
      * Animates the images
@@ -37,6 +37,6 @@ export class MovableObject extends DrawObjects {
         if (this.count < this.running.length) {
             this.bild = this.imgCache[path].src;
             this.count++
-        }else this.count = 0
+        } else this.count = 0
     }
 }

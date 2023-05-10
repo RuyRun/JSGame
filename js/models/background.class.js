@@ -40,14 +40,13 @@ export class Background {
         this.bg2.src = 'assets/background/2.png';
         this.bg1 = new Image();
         this.bg1.src = 'assets/background/1.png';
-        this.layer1 = new Layer(this.game, this.width, this.height-this.helperPosition, 1, this.bg1);
+        this.layer1 = new Layer(this.game, this.width, this.height-this.helperPosition, 0, this.bg1);
         this.layer2 = new Layer(this.game, this.width, this.height-this.helperPosition, 0.5, this.bg2);
-        this.layer3 = new Layer(this.game, this.width, this.height-this.helperPosition, 2, this.bg3);
-        this.layer4 = new Layer(this.game, this.width, this.height-this.helperPosition, 2, this.bg4);
-        this.layer5 = new Layer(this.game, this.width, this.height-this.helperPosition, 1, this.bg5);
+        this.layer3 = new Layer(this.game, this.width, this.height-this.helperPosition, 1, this.bg3);
+        this.layer4 = new Layer(this.game, this.width, this.height-this.helperPosition, 1, this.bg4);
+        this.layer5 = new Layer(this.game, this.width, this.height-this.helperPosition, 2, this.bg5);
         this.layer6 = new Layer(this.game, this.width, this.height, 2, this.bg6);
         this.backgroundLayers = [this.layer1, this.layer2, this.layer3, this.layer4, this.layer5, this.layer6];
-        console.log(this.all);
     }
     update(){
         this.backgroundLayers.forEach(layer => {

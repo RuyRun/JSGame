@@ -1,5 +1,5 @@
 import { MovableObject } from "./movable-objects.class.js";
-import { Idle, Running, Jumping} from "./playerStates.class.js";
+import { Idle, Running, Jumping } from "./playerStates.class.js";
 
 export class Player extends MovableObject {
     idle = [
@@ -25,7 +25,7 @@ export class Player extends MovableObject {
         'assets/char/00_idle/skeleton-00_idle_19.png',
         'assets/char/00_idle/skeleton-00_idle_20.png',
     ]
-    
+
     running = [
         'assets/char/01_run_01start/skeleton-01_run_01start_00.png',
         'assets/char/01_run_01start/skeleton-01_run_01start_01.png',
@@ -95,21 +95,21 @@ export class Player extends MovableObject {
         'assets/char/04_punch/skeleton-04_punch_09.png',
     ]
     count = 0;
-    
+
     constructor(game) {
         super();
         this.loadImages(this.running);
         this.loadImages(this.jumping);
         this.loadImages(this.idle);
         this.loadImages(this.punsh);
-        this.game = game;        
+        this.game = game;
         this.bild = 'assets/char/00_idle/skeleton-00_idle_00.png';
         this.width = 100;
         this.height = 100;
         this.x = 0;
-        this.y = this.game.height - this.height;
+        this.y = this.game.height - this.height - this.game.groundMargin;
         this.speed = 0;
-        this.maxSpeed = 5;
+        this.maxSpeed = 0.5;
         this.speedY = 0;
         this.gravity = 1;
         this.states = [new Idle(this), new Running(this), new Jumping(this)];
@@ -127,9 +127,9 @@ export class Player extends MovableObject {
         } else if (this.keys.includes('ArrowLeft')) {
             this.speed = -this.maxSpeed;
         } else this.speed = 0;
-        if(this.x < 0){
+        if (this.x < 0) {
             this.x = 0
-        }else if(this.x > this.game.width - this.width){
+        } else if (this.x > this.game.width - this.width) {
             this.x = this.game.width - this.width;
         }
 
@@ -140,16 +140,17 @@ export class Player extends MovableObject {
         } else this.speedY = 0;
 
         this.playAnimation(this.animateImage)
-            
+
     }
 
-    drawImage(ctx) {        
+    drawImage(ctx) {
         this.loadImage(this.bild);
         this.draw(ctx)
     }
 
-    setState(state) {
+    setState(state, speed) {
         this.currentState = this.states[state];
+        this.game.speed = speed;
         this.currentState.enter();
     }
 
