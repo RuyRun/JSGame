@@ -2,6 +2,7 @@ import { Player } from "./models/player.class.js";
 import { Background } from "./models/background.class.js";
 import { FlyingEnemy } from "./models/enemys/flying-enemy.class.js";
 import { GroundEnemy } from "./models/enemys/ground-enemy.class.js";
+import { UI } from "./models/ui.class.js";
 
 window.addEventListener('load', function () {
     const canvas = this.document.getElementById('canvas1');
@@ -17,6 +18,7 @@ window.addEventListener('load', function () {
             this.speed = 0;
             this.background = new Background(this);
             this.player = new Player(this);
+            this.ui = new UI(this);
             this.enemies = [];
             this.enemeyTimer = 0;
             this.enemyInterval = 1000;
@@ -34,7 +36,8 @@ window.addEventListener('load', function () {
             this.player.drawImage(context);
             this.enemies.forEach(enemy => {
                 enemy.drawImage(context);
-            })
+            });
+            this.ui.draw(context);
         }
 
         addEnemy() {
