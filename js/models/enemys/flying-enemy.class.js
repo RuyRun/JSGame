@@ -26,8 +26,8 @@ export class FlyingEnemy extends MovableObject {
         super();
         this.loadImages(this.flyImage);
         this.game = game;
-        this.width = 80;
-        this.height = 80;
+        this.width = 60;
+        this.height = 60;
         this.x = this.game.width + Math.random() * this.game.width * 0.5;
         this.y = Math.random() * this.game.height * 0.5 ;
         this.speedX = Math.random() +2;

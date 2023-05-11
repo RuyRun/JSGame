@@ -20,7 +20,7 @@ window.addEventListener('load', function () {
             this.enemies = [];
             this.enemeyTimer = 0;
             this.enemyInterval = 1000;
-            
+            this.score = 0;            
         }
 
         update(deltaTime) {
@@ -42,7 +42,6 @@ window.addEventListener('load', function () {
                 this.enemies.push(new GroundEnemy(this))
             }
             this.enemies.push(new FlyingEnemy(this));
-            console.log(this.enemies);
         }
 
         handelEnemies(deltaTime) {

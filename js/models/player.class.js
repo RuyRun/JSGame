@@ -104,8 +104,8 @@ export class Player extends MovableObject {
         this.loadImages(this.punsh);
         this.game = game;
         this.bild = 'assets/char/00_idle/skeleton-00_idle_00.png';
-        this.width = 100;
-        this.height = 100;
+        this.width = 80;
+        this.height = 80;
         this.x = 0;
         this.y = this.game.height - this.height - this.game.groundMargin;
         this.speed = 0;
@@ -115,10 +115,12 @@ export class Player extends MovableObject {
         this.states = [new Idle(this), new Running(this), new Jumping(this)];
         this.currentState = this.states[0];
         this.currentState.enter();
-        this.animateImage = this.idle
+        this.animateImage = this.idle;        
+        this.game.debugMode = this.test;
     }
 
     update() {
+        this.checkCollision();
         this.currentState.handleInput(this.keys);
         //Horizontale bewegung
         this.x += this.speed;
@@ -161,5 +163,19 @@ export class Player extends MovableObject {
 
     jump() {
         this.animateImage = this.jumping;
+    }
+
+    checkCollision() {
+        this.game.enemies.forEach(enemy => {
+            if(
+                enemy.x < this.x + this.width &&
+                enemy.x + enemy.width > this.x &&
+                enemy.y < this.y + this.height &&
+                enemy.y + enemy.height > this.y
+                ){
+                    enemy.canDelete = true;
+                    this.game.score++;
+            }
+        });
     }
 }

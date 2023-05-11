@@ -23,14 +23,14 @@ export class GroundEnemy extends MovableObject {
         super();
         this.loadImages(this.groundImage);
         this.game = game;
-        this.width = 80;
-        this.height = 80;
+        this.width = 60;
+        this.height = 60;
         this.x = this.game.width - 160;
         this.y = this.game.height - this.height - this.game.groundMargin;
         this.speedX = 0;
         this.speedY = 0;
         this.bild = 'assets/enemey/ground/idle/skeleton-idle_00.png';
-
+        this.canDelete = false;
     }
     update() {      
         this.x -= this.speedX + this.game.speed; 

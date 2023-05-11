@@ -50,7 +50,7 @@ export class Jumping extends State {
     }
     enter() {
         if (this.player.onGround()) {
-            this.player.speedY -= 20;
+            this.player.speedY -= 25;
         }
         this.player.jump();
 
