@@ -34,7 +34,8 @@ export class MovableObject extends DrawObjects {
      */
     playAnimation(arr) {
         let path = arr[this.count];
-        if (this.count < this.running.length) {
+        let arrLength = arr.length;
+        if (this.count < arrLength) {
             this.bild = this.imgCache[path].src;
             this.count++
         } else this.count = 0

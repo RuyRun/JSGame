@@ -5,12 +5,10 @@ const states = {
 }
 
 class State {
-
     constructor(state) {
         this.state = state;
     }
 }
-
 export class Idle extends State {
     constructor(player) {
         super('IDLE');

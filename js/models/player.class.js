@@ -109,7 +109,7 @@ export class Player extends MovableObject {
         this.x = 0;
         this.y = this.game.height - this.height - this.game.groundMargin;
         this.speed = 0;
-        this.maxSpeed = 0.5;
+        this.maxSpeed = 1.5;
         this.speedY = 0;
         this.gravity = 1;
         this.states = [new Idle(this), new Running(this), new Jumping(this)];
@@ -132,15 +132,12 @@ export class Player extends MovableObject {
         } else if (this.x > this.game.width - this.width) {
             this.x = this.game.width - this.width;
         }
-
         //Vertikale bewegung
         this.y += this.speedY;
         if (!this.onGround()) {
             this.speedY += this.gravity;
         } else this.speedY = 0;
-
         this.playAnimation(this.animateImage)
-
     }
 
     drawImage(ctx) {
