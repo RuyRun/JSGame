@@ -1,5 +1,6 @@
 import { MovableObject } from "./movable-objects.class.js";
-import { Idle, Running, Jumping } from "./playerStates.class.js";
+import { Idle, Running, Jumping, Attac, Hit } from "./playerStates.class.js";
+import { CollisionAnimation } from "./collisonAnimation.class.js";
 
 export class Player extends MovableObject {
     idle = [
@@ -72,7 +73,7 @@ export class Player extends MovableObject {
         'assets/char/02_jump_01start/skeleton-02_jump_01start_10.png',
     ]
 
-    punsh = [
+    attacImage = [
         'assets/char/04_punch/skeleton-04_punch_00.png',
         'assets/char/04_punch/skeleton-04_punch_01.png',
         'assets/char/04_punch/skeleton-04_punch_02.png',
@@ -94,6 +95,50 @@ export class Player extends MovableObject {
         'assets/char/04_punch/skeleton-04_punch_08.png',
         'assets/char/04_punch/skeleton-04_punch_09.png',
     ]
+
+    hitImage = [
+        'assets/char/03_ko/skeleton-03_ko_00.png',
+        'assets/char/03_ko/skeleton-03_ko_01.png',
+        'assets/char/03_ko/skeleton-03_ko_02.png',
+        'assets/char/03_ko/skeleton-03_ko_03.png',
+        'assets/char/03_ko/skeleton-03_ko_04.png',
+        'assets/char/03_ko/skeleton-03_ko_05.png',
+        'assets/char/03_ko/skeleton-03_ko_06.png',
+        'assets/char/03_ko/skeleton-03_ko_07.png',
+        'assets/char/03_ko/skeleton-03_ko_08.png',
+        'assets/char/03_ko/skeleton-03_ko_09.png',
+        'assets/char/03_ko/skeleton-03_ko_10.png',
+        'assets/char/03_ko/skeleton-03_ko_11.png',
+        'assets/char/03_ko/skeleton-03_ko_12.png',
+        'assets/char/03_ko/skeleton-03_ko_13.png',
+        'assets/char/03_ko/skeleton-03_ko_14.png',
+        'assets/char/03_ko/skeleton-03_ko_15.png',
+        'assets/char/03_ko/skeleton-03_ko_16.png',
+        'assets/char/03_ko/skeleton-03_ko_17.png',
+        'assets/char/03_ko/skeleton-03_ko_18.png',
+        'assets/char/03_ko/skeleton-03_ko_19.png',
+        'assets/char/03_ko/skeleton-03_ko_20.png',
+        'assets/char/03_ko/skeleton-03_ko_21.png',
+        'assets/char/03_ko/skeleton-03_ko_22.png',
+        'assets/char/03_ko/skeleton-03_ko_23.png',
+        'assets/char/03_ko/skeleton-03_ko_24.png',
+        'assets/char/03_ko/skeleton-03_ko_25.png',
+        'assets/char/03_ko/skeleton-03_ko_26.png',
+        'assets/char/03_ko/skeleton-03_ko_27.png',
+        'assets/char/03_ko/skeleton-03_ko_28.png',
+        'assets/char/03_ko/skeleton-03_ko_29.png',
+        'assets/char/03_ko/skeleton-03_ko_30.png',
+        'assets/char/03_ko/skeleton-03_ko_31.png',
+        'assets/char/03_ko/skeleton-03_ko_32.png',
+        'assets/char/03_ko/skeleton-03_ko_33.png',
+        'assets/char/03_ko/skeleton-03_ko_34.png',
+        'assets/char/03_ko/skeleton-03_ko_35.png',
+        'assets/char/03_ko/skeleton-03_ko_36.png',
+        'assets/char/03_ko/skeleton-03_ko_37.png',
+        'assets/char/03_ko/skeleton-03_ko_38.png',
+        'assets/char/03_ko/skeleton-03_ko_39.png',
+        'assets/char/03_ko/skeleton-03_ko_40.png',
+    ]
     count = 0;
 
     constructor(game) {
@@ -101,7 +146,8 @@ export class Player extends MovableObject {
         this.loadImages(this.running);
         this.loadImages(this.jumping);
         this.loadImages(this.idle);
-        this.loadImages(this.punsh);
+        this.loadImages(this.attacImage);
+        this.loadImages(this.hitImage);
         this.game = game;
         this.bild = 'assets/char/00_idle/skeleton-00_idle_00.png';
         this.width = 80;
@@ -109,13 +155,13 @@ export class Player extends MovableObject {
         this.x = 0;
         this.y = this.game.height - this.height - this.game.groundMargin;
         this.speed = 0;
-        this.maxSpeed = 1.5;
+        this.maxSpeed = 3;
         this.speedY = 0;
         this.gravity = 1;
-        this.states = [new Idle(this), new Running(this), new Jumping(this)];
+        this.states = [new Idle(this), new Running(this), new Jumping(this), new Attac(this), new Hit(this)];
         this.currentState = this.states[0];
         this.currentState.enter();
-        this.animateImage = this.idle;        
+        this.animateImage = this.idle;
         this.game.debugMode = this.test;
     }
 
@@ -165,16 +211,30 @@ export class Player extends MovableObject {
         this.animateImage = this.jumping;
     }
 
+    attac() {
+        this.animateImage = this.attacImage;
+    }
+
+    hit() {
+        this.animateImage = this.hitImage;
+    }
+
     checkCollision() {
         this.game.enemies.forEach(enemy => {
-            if(
+            if (
                 enemy.x < this.x + this.width &&
                 enemy.x + enemy.width > this.x &&
                 enemy.y < this.y + this.height &&
                 enemy.y + enemy.height > this.y
-                ){
+            ) {
+                
+                if(this.currentState === this.states[3]) {
+                    this.game.collisions.push(new CollisionAnimation(this.game, enemy.x + enemy.width * 0.5, enemy.y + enemy.height * 0.5))
                     enemy.canDelete = true;
                     this.game.score++;
+                }else {
+                    this.setState(4,0)
+                }
             }
         });
     }

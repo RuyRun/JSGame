@@ -11,7 +11,7 @@ window.addEventListener('load', function () {
     canvas.height = 500;
 
     class Game {
-        constructor(width, height) {
+        constructor(width, height, ctx) {
             this.width = width;
             this.height = height;
             this.groundMargin = 85;
@@ -20,15 +20,23 @@ window.addEventListener('load', function () {
             this.player = new Player(this);
             this.ui = new UI(this);
             this.enemies = [];
+            this.collisions = [];
             this.enemeyTimer = 0;
             this.enemyInterval = 1000;
-            this.score = 0;            
+            this.score = 0;
+            this.ctx = ctx;
         }
 
         update(deltaTime) {
             this.background.update();
             this.player.update();
             this.handelEnemies(deltaTime);
+            this.collisions.forEach((collision, index) => {
+                collision.update(deltaTime);
+                if (collision.canDelete) {
+                    this.collisions.splice(index, 1);
+                }
+            });
         }
 
         draw(context) {
@@ -37,32 +45,35 @@ window.addEventListener('load', function () {
             this.enemies.forEach(enemy => {
                 enemy.drawImage(context);
             });
+            this.collisions.forEach(collision => {
+                collision.drawImage(context);
+            });
             this.ui.draw(context);
         }
 
         addEnemy() {
-            if(this.speed > 0 && Math.random() < 0.3){
+            if (this.speed > 0 && Math.random() < 0.3) {
                 this.enemies.push(new GroundEnemy(this))
             }
             this.enemies.push(new FlyingEnemy(this));
         }
 
         handelEnemies(deltaTime) {
-            if(this.enemeyTimer > this.enemyInterval){
+            if (this.enemeyTimer > this.enemyInterval) {
                 this.addEnemy();
                 this.enemeyTimer = 0;
-            }else {
+            } else {
                 this.enemeyTimer += deltaTime;
             }
             this.enemies.forEach(enemy => {
                 enemy.update(deltaTime);
-                if(enemy.canDelete){
-                    this.enemies.splice(this.enemies.indexOf(enemy),1);
+                if (enemy.canDelete) {
+                    this.enemies.splice(this.enemies.indexOf(enemy), 1);
                 }
             })
         }
     }
-    const game = new Game(canvas.width, canvas.height);
+    const game = new Game(canvas.width, canvas.height, ctx);
     console.log(game);
     let lastTime = 0;
 
@@ -75,5 +86,5 @@ window.addEventListener('load', function () {
         requestAnimationFrame(animate);
     }
     animate(0);
-    
+
 });

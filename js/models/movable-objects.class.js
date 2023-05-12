@@ -3,6 +3,8 @@ export class MovableObject extends DrawObjects {
     constructor() {
         super();
         this.keys = [];
+        this.count = 0;
+        this.frame = 0;
         window.addEventListener('keydown', e => {
             if ((e.key === 'ArrowDown' ||
                 e.key === 'ArrowUp' ||
@@ -37,5 +39,12 @@ export class MovableObject extends DrawObjects {
             this.bild = this.imgCache[path].src;
             this.count++
         } else this.count = 0
+    }
+    collisonAnimationFrame(arr) {
+        let path = arr[this.count];
+        let arrLength = arr.length;
+        if (this.count < arrLength) {
+            this.bild = this.imgCache[path].src;
+        } 
     }
 }

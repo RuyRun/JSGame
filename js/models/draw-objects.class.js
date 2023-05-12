@@ -1,7 +1,7 @@
 export class DrawObjects {
     img;
     imgCache = {};
-    currentImage = 0;
+    
 
     draw(ctx) {
         ctx.strokeRect(this.x, this.y, this.width, this.height);
