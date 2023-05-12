@@ -158,11 +158,9 @@ export class Player extends MovableObject {
         this.maxSpeed = 3;
         this.speedY = 0;
         this.gravity = 1;
-        this.states = [new Idle(this), new Running(this), new Jumping(this), new Attac(this), new Hit(this)];
-        this.currentState = this.states[0];
-        this.currentState.enter();
+        this.states = [new Idle(this.game), new Running(this.game), new Jumping(this.game), new Attac(this.game), new Hit(this.game)];
+        
         this.animateImage = this.idle;
-        this.game.debugMode = this.test;
     }
 
     update() {

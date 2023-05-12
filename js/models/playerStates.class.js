@@ -1,3 +1,5 @@
+import { Fire } from "./particles.class.js";
+
 const states = {
     IDLE: 0,
     RUNNING: 1,
@@ -7,101 +9,98 @@ const states = {
 }
 
 class State {
-    constructor(state) {
+    constructor(state, game) {
         this.state = state;
+        this.game = game;
     }
 }
 export class Idle extends State {
-    constructor(player) {
-        super('IDLE');
-        this.player = player;
+    constructor(game) {
+        super('IDLE', game);
     }
     enter() {
-        this.player.waiting();
+        this.game.player.waiting();
     }
     handleInput(input) {
         if (input.includes('ArrowLeft') || input.includes('ArrowRight')) {
-            this.player.setState(states.RUNNING, 1);
+            this.game.player.setState(states.RUNNING, 1);
         } else if (input.includes('ArrowUp')) {
-            this.player.setState(states.JUMPING, 1);
+            this.game.player.setState(states.JUMPING, 1);
         } else if (input.includes('a')) {
-            this.player.setState(states.ATTAC, 2);
+            this.game.player.setState(states.ATTAC, 2);
         }
     }
 }
 export class Running extends State {
-    constructor(player) {
-        super('RUNNING');
-        this.player = player;
+    constructor(game) {
+        super('RUNNING', game);
     }
     enter() {
-        this.player.run();
+        this.game.player.run();
 
     }
     handleInput(input) {
+        
         if (input.includes('ArrowUp')) {
-            this.player.setState(states.JUMPING, 1);
+            this.game.player.setState(states.JUMPING, 1);
         } else if (input.length == 0) {
-            this.player.setState(states.IDLE, 0);
+            this.game.player.setState(states.IDLE, 0);
         } else if (input.includes('a')) {
-            this.player.setState(states.ATTAC, 2);
+            this.game.player.setState(states.ATTAC, 2);
         }
     }
 }
 export class Jumping extends State {
-    constructor(player) {
-        super('JUMPING');
-        this.player = player;
+    constructor(game) {
+        super('JUMPING', game);
     }
     enter() {
-        if (this.player.onGround()) {
-            this.player.speedY -= 25;
+        if (this.game.player.onGround()) {
+            this.game.player.speedY -= 25;
         }
-        this.player.jump();
+        this.game.player.jump();
 
     }
     handleInput(input) {
-        if (this.player.onGround()) {
-            this.player.setState(states.IDLE, 0);
+        if (this.game.player.onGround()) {
+            this.game.player.setState(states.IDLE, 0);
         } else if (input.includes('a')) {
-            this.player.setState(states.ATTAC, 2);
+            this.game.player.setState(states.ATTAC, 2);
         }
     }
 }
 
 
 export class Attac extends State {
-    constructor(player) {
-        super('ATTAC');
-        this.player = player;
+    constructor(game) {
+        super('ATTAC', game);
     }
     enter() {
-        this.player.attac();
-
+        this.game.player.attac();
     }
     handleInput(input) {
+        this.game.particles.push(new Fire(this.game, this.game.player.x + this.game.player.width * 0.7, this.game.player.y * 1.12)); 
         if (!input.includes('a')) {
-            this.player.setState(states.RUNNING, 1);
+            this.game.player.setState(states.RUNNING, 1);
         } else if (input.length == 0) {
-            this.player.setState(states.IDLE, 0);
+            this.game.player.setState(states.IDLE, 0);
         }
     }
 }
 
 export class Hit extends State {
-    constructor(player) {
-        super('HIT');
-        this.player = player;
+    constructor(game) {
+        super('HIT', game);
     }
     enter() {
-        this.player.hit();
+        this.game.player.hit();
 
     }
     handleInput(input) {
-        if (this.player.count >= this.player.hitImage.length) {
-            this.player.setState(states.RUNNING, 1);
-        } else if (this.player.count >= this.player.hitImage.length && input.length == 0) {
-            this.player.setState(states.IDLE, 0);
+        if (this.game.player.count >= this.game.player.hitImage.length) {
+            this.game.player.setState(states.RUNNING, 1);
+        } else if (this.game.player.count >= this.game.player.hitImage.length && input.length == 0) {
+            this.game.player.setState(states.IDLE, 0);
         }
     }
 }
