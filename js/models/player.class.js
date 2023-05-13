@@ -159,11 +159,14 @@ export class Player extends MovableObject {
         this.speedY = 0;
         this.gravity = 1;
         this.states = [new Idle(this.game), new Running(this.game), new Jumping(this.game), new Attac(this.game), new Hit(this.game)];
-        
+        this.heathStats = 10;
         this.animateImage = this.idle;
+        this.newTimer = 0;
+        this.timer = 1000;
     }
 
-    update() {
+    update(deltaTime) {
+        this.newTimer = deltaTime;
         this.checkCollision();
         this.currentState.handleInput(this.keys);
         //Horizontale bewegung
@@ -218,6 +221,7 @@ export class Player extends MovableObject {
     }
 
     checkCollision() {
+        this.timer -= this.newTimer;
         this.game.enemies.forEach(enemy => {
             if (
                 enemy.x < this.x + this.width &&
@@ -225,13 +229,20 @@ export class Player extends MovableObject {
                 enemy.y < this.y + this.height &&
                 enemy.y + enemy.height > this.y
             ) {
-                
-                if(this.currentState === this.states[3]) {
+
+                if (this.currentState === this.states[3]) {
                     this.game.collisions.push(new CollisionAnimation(this.game, enemy.x + enemy.width * 0.5, enemy.y + enemy.height * 0.5))
                     enemy.canDelete = true;
                     this.game.score++;
-                }else {
-                    this.setState(4,0)
+                } else {
+                    if(this.timer < 0) {
+                        this.setState(4, 0);
+                        this.timer = 800;
+                        this.game.playerHeath --;
+                        if(this.game.playerHeath === 0) {
+                            this.game.gameOver = true;
+                        }
+                    }
                 }
             }
         });

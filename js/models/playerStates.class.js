@@ -77,6 +77,7 @@ export class Attac extends State {
     }
     enter() {
         this.game.player.attac();
+        
     }
     handleInput(input) {
         this.game.particles.push(new Fire(this.game, this.game.player.x + this.game.player.width * 0.7, this.game.player.y * 1.12)); 
@@ -94,7 +95,6 @@ export class Hit extends State {
     }
     enter() {
         this.game.player.hit();
-
     }
     handleInput(input) {
         if (this.game.player.count >= this.game.player.hitImage.length) {

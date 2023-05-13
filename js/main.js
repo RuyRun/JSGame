@@ -28,11 +28,18 @@ window.addEventListener('load', function () {
             this.ctx = ctx;
             this.player.currentState = this.player.states[0];
             this.player.currentState.enter();
+            this.maxGameTime = 20000;
+            this.gameOver = false;
+            this.playerHeath = 5;
         }
 
         update(deltaTime) {
+            this.maxGameTime -= deltaTime;
+            if (this.maxGameTime< 0) {
+                this.gameOver = true;
+            }
             this.background.update();
-            this.player.update();
+            this.player.update(deltaTime);
             this.handelEnemies(deltaTime);
             this.collisions.forEach((collision, index) => {
                 collision.update(deltaTime);
@@ -96,8 +103,17 @@ window.addEventListener('load', function () {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         game.update(deltaTime);
         game.draw(ctx);
-        requestAnimationFrame(animate);
+        if (!game.gameOver) {
+            requestAnimationFrame(animate);
+        }else {
+            setTimeout(() => {
+                showScreen();
+            }, 800);
+        }
     }
     animate(0);
-
+    function showScreen() {
+        document.getElementById('gameover').classList.remove('d-none');
+        document.getElementById('canvas1').classList.add('d-none');
+    }
 });
