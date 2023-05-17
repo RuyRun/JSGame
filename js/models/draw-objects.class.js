@@ -4,7 +4,7 @@ export class DrawObjects {
     
 
     draw(ctx) {
-        ctx.strokeRect(this.x, this.y, this.width, this.height);
+        // ctx.strokeRect(this.x, this.y, this.width, this.height);
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     };
 

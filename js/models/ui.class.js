@@ -15,5 +15,5 @@ export class UI {
         //Player heathStats
         ctx.font = '24px Helvetica';
         ctx.fillText('Heath: ' + this.game.playerHeath, 20, 110);
-    }
+    }   
 }

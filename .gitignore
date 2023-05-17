@@ -1,2 +1,4 @@
 assets/background/backgrounds
 assets/enemey/ground/get_hit
+*.psd
+settings.json

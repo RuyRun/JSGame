@@ -12,7 +12,46 @@
     transform: translate(-50%, -50%);
     max-width: 100%;
     max-height: 100%;
+    z-index: 1;
+    &::backdrop {
+        background-color: rgba(255, 255, 255, 0);
+    }
 }
+
 .d-none {
-    display: none;
+    display: none !important;
+}
+
+body {
+    height: 100vh;
+    overflow: hidden;
+    background-image: url('../assets/background/page-bg.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#gameover {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    margin: 0px 10px;
+    text-align: center;
+}
+
+.mobile {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: red;
+    color: white;
+    height: 100vh;
+    width: 100vw;
+    z-index: 99;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

@@ -1,6 +1,7 @@
 import { MovableObject } from "./movable-objects.class.js";
 import { Idle, Running, Jumping, Attac, Hit } from "./playerStates.class.js";
 import { CollisionAnimation } from "./collisonAnimation.class.js";
+import { PlayerDeathHtml } from "./generateHTML.class.js";
 
 export class Player extends MovableObject {
     idle = [
@@ -239,12 +240,18 @@ export class Player extends MovableObject {
                         this.setState(4, 0);
                         this.timer = 800;
                         this.game.playerHeath --;
-                        if(this.game.playerHeath === 0) {
-                            this.game.gameOver = true;
-                        }
+                        this.showScreenWhenPlayerDeath();
                     }
                 }
             }
         });
+    }
+
+    showScreenWhenPlayerDeath() {
+        if(this.game.playerHeath <= 0) {
+            this.game.gameOver = true;
+            let test = new PlayerDeathHtml(this.game);
+            test.gameOverText();            
+        }
     }
 }
