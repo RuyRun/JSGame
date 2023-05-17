@@ -27,8 +27,7 @@ function endscreen(ctx, width, height, canvas, score, hits) {
         } else if (endscreen.showInfo) {
             loadInfo(ctx, width, height, canvas);
             cancelAnimationFrame(animationFrameId);
-        }
-        
+        }        
         animationFrameId;
     }
     animate();
@@ -81,8 +80,7 @@ function loadInfo(ctx, width, height, canvas) {
         const animationFrameId = requestAnimationFrame(animate);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         // Spiel-Intro zeichnen
-        gameInfo.drawText();
-        gameInfo.drawBtns();
+        gameInfo.draw();
         // Überprüfen, ob das Spiel gestartet werden soll
         if (gameInfo.startGame) {
             startGame(ctx, width, height, canvas,gameInfo.startGame); // Funktion zum Starten des Spiels aufrufen

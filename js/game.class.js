@@ -22,7 +22,7 @@ export class Game {
         this.ctx = ctx;
         this.player.currentState = this.player.states[0];
         this.player.currentState.enter();
-        this.maxGameTime = 10000;
+        this.maxGameTime = 2000;
         this.gameOver = false;
         this.playerHeath = 5;
         this.gameOverScreen = new GameOverHtml(this);
