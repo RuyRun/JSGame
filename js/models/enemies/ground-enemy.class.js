@@ -18,7 +18,8 @@ export class GroundEnemy extends MovableObject {
         'assets/enemey/ground/idle/skeleton-idle_14.png',
         'assets/enemey/ground/idle/skeleton-idle_15.png',
         'assets/enemey/ground/idle/skeleton-idle_16.png',
-    ]
+    ];
+
     constructor(game) {
         super();
         this.loadImages(this.groundImage);
@@ -32,10 +33,12 @@ export class GroundEnemy extends MovableObject {
         this.bild = 'assets/enemey/ground/idle/skeleton-idle_00.png';
         this.canDelete = false;
     }
+
     update() {      
         this.x -= this.speedX + this.game.speed; 
         this.playAnimation(this.groundImage);
     }
+    
     drawImage(ctx) {
         this.loadImage(this.bild);
         this.draw(ctx)

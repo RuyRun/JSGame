@@ -21,7 +21,8 @@ export class FlyingEnemy extends MovableObject {
         'assets/enemey/flying/skeleton-animation_17.png',
         'assets/enemey/flying/skeleton-animation_18.png',
         'assets/enemey/flying/skeleton-animation_19.png',
-    ]
+    ];
+
     constructor(game) {
         super();
         this.loadImages(this.flyImage);
@@ -30,14 +31,15 @@ export class FlyingEnemy extends MovableObject {
         this.height = 60;
         this.x = this.game.width + Math.random() * this.game.width * 0.5;
         this.y = Math.random() * this.game.height * 0.5 ;
-        this.speedX = Math.random() +2;
+        this.speedX = Math.random() +3;
         this.speedY = 0;
         this.bild = 'assets/enemey/flying/skeleton-animation_19.png';
         this.canDelete = false;
         this.angel = 0;
-        this.ranAngel = Math.random() *0.1+0.1;
+        this.ranAngel = Math.random() *0.2+0.1;
 
     }
+
     update() {
         this.x -= this.speedX + this.game.speed;
         this.angel+=this.ranAngel;
@@ -47,6 +49,7 @@ export class FlyingEnemy extends MovableObject {
             this.canDelete = true;
         }
     }
+
     drawImage(ctx) {
         this.loadImage(this.bild);
         this.draw(ctx)

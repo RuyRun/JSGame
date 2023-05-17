@@ -12,6 +12,7 @@ export class GameInformation extends DrawObjects {
             name: 'Home'
         },
     ];
+
     gameButtons = [
         {
             image: 'assets/icons/fire.png',
@@ -79,9 +80,11 @@ export class GameInformation extends DrawObjects {
         this.startPage = false;
         this.loadImage('assets/background/background-start.png');
         this.buttons = this.navButtons;
+
         canvas.addEventListener('click', e => {
             this.iterateThroughButtons(e);
         });
+
         setInterval(() => {
             this.checkLandscape()
         }, 200);
@@ -135,14 +138,16 @@ export class GameInformation extends DrawObjects {
         ctx.drawImage(image, imageX, imageY, buttonWidth / 2, buttonHeight / 2);
     }
 
-    // Funktion zum Wechseln in den Vollbildmodus
+    /**
+     * Function to switch to full screen mode
+     */
     toggleFullscreen() {
-        const test = document.getElementById('canvas1'); // Ersetze 'meinCanvas' durch die tatsächliche ID deines Canvas-Elements
+        const test = document.getElementById('canvas1');
         if (test.requestFullscreen) {
             test.requestFullscreen();
         } else if (test.mozRequestFullScreen) { // Firefox
             test.mozRequestFullScreen();
-        } else if (test.webkitRequestFullscreen) { // Chrome, Safari und Opera
+        } else if (test.webkitRequestFullscreen) { // Chrome, Safari & Opera
             test.webkitRequestFullscreen();
         } else if (test.msRequestFullscreen) { // Internet Explorer
             test.msRequestFullscreen();

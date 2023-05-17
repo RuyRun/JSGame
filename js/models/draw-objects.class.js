@@ -37,6 +37,7 @@ export class DrawObjects {
         let buttonColor = '#4CAF50';
         let textColor = 'white';
         this.buttons.forEach(btn => {
+            // Create button with curves
             this.ctx.fillStyle = buttonColor;
             this.ctx.beginPath();
             this.ctx.moveTo(btn.x + cornerRadius, btn.y);
@@ -76,11 +77,19 @@ export class DrawObjects {
             document.getElementById('warn').classList.remove('d-none');
         }
     }
+
     iterateThroughButtons(e) {
         this.buttons.forEach(btn => {
             this.buttonClick(e, btn)
-        })
+        });
     }
+
+    /**
+     * Checks if the touch event was inside a button.
+     * If this is the case then it will be responded to.
+     * @param {object} event - Touch event 
+     * @param {Array} btn - Button Array
+     */
     buttonClick(event, btn) {
         let canvas = document.getElementById('canvas1');
         let rect = canvas.getBoundingClientRect();
@@ -89,7 +98,7 @@ export class DrawObjects {
         let mouseX = (event.clientX - rect.left) * scaleX;
         let mouseY = (event.clientY - rect.top) * scaleY;
 
-        // Überprüfen, ob Klick innerhalb der Schaltfläche liegt
+        // Check if the click is inside the button
         if (mouseX > btn.x && mouseX < btn.x + this.buttonWidth &&
             mouseY > btn.y && mouseY < btn.y + this.buttonHeight) {
             switch (btn.name) {

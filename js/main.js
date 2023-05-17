@@ -1,8 +1,7 @@
-import { Game } from "./game.class.js";
+import { Game } from "./models/game.class.js";
 import { GameIntro } from "./models/game-intro.class.js";
 import { GameInformation } from "./models/game-info.class.js";
 import { Endscreen } from "./models/endscreen.class.js";
-
 
 window.addEventListener('load', function () {
     const canvas = document.getElementById('canvas1');
@@ -11,14 +10,22 @@ window.addEventListener('load', function () {
     canvas.height = 500;    
     load(ctx, canvas.width, canvas.height, canvas);    
 });
-
-function endscreen(ctx, width, height, canvas, score, hits) {
-    const endscreen = new Endscreen(ctx, width, height, canvas, score, hits);
+/**
+  * Displays the end screen
+ * @param {Object} ctx - Context
+ * @param {Number} width - Canvas width
+ * @param {Number} height - Canvas height
+ * @param {Object} canvas - Canvasobject
+ * @param {Number} playerHeath - Nums of live
+ * @param {Number} score  - Score from Player
+ */
+function endscreen(ctx, width, height, canvas, playerHeath, score) {
+    const endscreen = new Endscreen(ctx, width, height, canvas, playerHeath, score);
     function animate() {
         const animationFrameId = requestAnimationFrame(animate);
-        // Hintergrund löschen
+        // Delete background
         ctx.clearRect(0, 0, width, height);
-        // Spiel-Intro zeichnen
+        // Draw game Endscreen
         endscreen.draw();
         // Überprüfen, ob das Spiel gestartet werden soll
         if (endscreen.startGame) {
@@ -33,18 +40,24 @@ function endscreen(ctx, width, height, canvas, score, hits) {
     animate();
 }
 
-
+/**
+ * Display the Game intro screen
+ * @param {Object} ctx - Context
+ * @param {Number} width - Canvas width
+ * @param {Number} height - Canvas height
+ * @param {Object} canvas - Canvasobject
+ */
 function load(ctx, width, height, canvas) {
     const gameIntro = new GameIntro(ctx, width, height, canvas);
     function animate() {
         const animationFrameId = requestAnimationFrame(animate);
-        // Hintergrund löschen
+        // Delete background
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        // Spiel-Intro zeichnen
+        // Draw game intro
         gameIntro.draw();
-        // Überprüfen, ob das Spiel gestartet werden soll
+        // Check if you want to start the game
         if (gameIntro.startGame) {
-            startGame(ctx, width, height, canvas); // Funktion zum Starten des Spiels aufrufen
+            startGame(ctx, width, height, canvas); // Call function to start the game
             cancelAnimationFrame(animationFrameId);
         } else if (gameIntro.showInfo) {
             loadInfo(ctx, width, height, canvas);
@@ -54,6 +67,13 @@ function load(ctx, width, height, canvas) {
     }
     animate();
 }
+/**
+ * Display the Game
+ * @param {Object} ctx - Context
+ * @param {Number} width - Canvas width
+ * @param {Number} height - Canvas height
+ * @param {Object} canvas - Canvasobject
+ */
 function startGame(ctx, width, height, canvas) {
     const game = new Game(width, height, ctx);
     let lastTime = 0;
@@ -73,17 +93,24 @@ function startGame(ctx, width, height, canvas) {
     }
     animate(0);
 }
-
+/**
+ * Display the Gameinformations
+ * @param {Object} ctx - Context
+ * @param {Number} width - Canvas width
+ * @param {Number} height - Canvas height
+ * @param {Object} canvas - Canvasobject
+ */
 function loadInfo(ctx, width, height, canvas) {
     const gameInfo = new GameInformation(ctx, width, height, canvas);
     function animate() {
         const animationFrameId = requestAnimationFrame(animate);
+        // Delete background
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        // Spiel-Intro zeichnen
+        // Draw game intro
         gameInfo.draw();
-        // Überprüfen, ob das Spiel gestartet werden soll
+        // Check if you want to start the game
         if (gameInfo.startGame) {
-            startGame(ctx, width, height, canvas,gameInfo.startGame); // Funktion zum Starten des Spiels aufrufen
+            startGame(ctx, width, height, canvas,gameInfo.startGame); // Call function to start the game
             cancelAnimationFrame(animationFrameId);
         } else if (gameInfo.startPage) {
             load(ctx, width, height, canvas);

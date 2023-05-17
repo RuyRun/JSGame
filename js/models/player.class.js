@@ -1,7 +1,6 @@
 import { MovableObject } from "./movable-objects.class.js";
 import { Idle, Running, Jumping, Attac, Hit } from "./playerStates.class.js";
 import { CollisionAnimation } from "./collisonAnimation.class.js";
-import { PlayerDeathHtml } from "./generateHTML.class.js";
 
 export class Player extends MovableObject {
     idle = [
@@ -26,7 +25,7 @@ export class Player extends MovableObject {
         'assets/char/00_idle/skeleton-00_idle_18.png',
         'assets/char/00_idle/skeleton-00_idle_19.png',
         'assets/char/00_idle/skeleton-00_idle_20.png',
-    ]
+    ];
 
     running = [
         'assets/char/01_run_01start/skeleton-01_run_01start_00.png',
@@ -48,7 +47,8 @@ export class Player extends MovableObject {
         'assets/char/01_run_01start/skeleton-01_run_01start_16.png',
         'assets/char/01_run_01start/skeleton-01_run_01start_17.png',
         'assets/char/01_run_01start/skeleton-01_run_01start_18.png',
-    ]
+    ];
+
     jumping = [
         'assets/char/02_jump_01start/skeleton-02_jump_01start_00.png',
         'assets/char/02_jump_01start/skeleton-02_jump_01start_01.png',
@@ -72,7 +72,7 @@ export class Player extends MovableObject {
         'assets/char/02_jump_01start/skeleton-02_jump_01start_08.png',
         'assets/char/02_jump_01start/skeleton-02_jump_01start_09.png',
         'assets/char/02_jump_01start/skeleton-02_jump_01start_10.png',
-    ]
+    ];
 
     attacImage = [
         'assets/char/04_punch/skeleton-04_punch_00.png',
@@ -95,7 +95,7 @@ export class Player extends MovableObject {
         'assets/char/04_punch/skeleton-04_punch_07.png',
         'assets/char/04_punch/skeleton-04_punch_08.png',
         'assets/char/04_punch/skeleton-04_punch_09.png',
-    ]
+    ];
 
     hitImage = [
         'assets/char/03_ko/skeleton-03_ko_00.png',
@@ -139,7 +139,8 @@ export class Player extends MovableObject {
         'assets/char/03_ko/skeleton-03_ko_38.png',
         'assets/char/03_ko/skeleton-03_ko_39.png',
         'assets/char/03_ko/skeleton-03_ko_40.png',
-    ]
+    ];
+
     count = 0;
 
     constructor(game) {
@@ -170,19 +171,21 @@ export class Player extends MovableObject {
         this.newTimer = deltaTime;
         this.checkCollision();
         this.currentState.handleInput(this.keys);
-        //Horizontale bewegung
+        //horizontal movement
         this.x += this.speed;
         if (this.keys.includes('ArrowRight')) {
             this.speed = this.maxSpeed;
         } else if (this.keys.includes('ArrowLeft')) {
             this.speed = -this.maxSpeed;
         } else this.speed = 0;
+
+        // Cant't go out of the Canvas
         if (this.x < 0) {
             this.x = 0
         } else if (this.x > this.game.width - this.width) {
             this.x = this.game.width - this.width;
         }
-        //Vertikale bewegung
+        //vertical movement
         this.y += this.speedY;
         if (!this.onGround()) {
             this.speedY += this.gravity;
@@ -224,34 +227,43 @@ export class Player extends MovableObject {
     checkCollision() {
         this.timer -= this.newTimer;
         this.game.enemies.forEach(enemy => {
-            if (
-                enemy.x < this.x + this.width &&
-                enemy.x + enemy.width > this.x &&
-                enemy.y < this.y + this.height &&
-                enemy.y + enemy.height > this.y
-            ) {
-
-                if (this.currentState === this.states[3]) {
-                    this.game.collisions.push(new CollisionAnimation(this.game, enemy.x + enemy.width * 0.5, enemy.y + enemy.height * 0.5))
+            if (this.ifColliding(enemy)) {
+                if (this.whenPlayerInAttac()) {
+                    // Player is in Attac and kill the Enemies
+                    this.game.collisionsAnimation.push(new CollisionAnimation(this.game, enemy.x + enemy.width * 0.5, enemy.y + enemy.height * 0.5))
                     enemy.canDelete = true;
                     this.game.score++;
                 } else {
-                    if(this.timer < 0) {
+                    // Player takes damage 
+                    if (this.timer < 0) {
                         this.setState(4, 0);
                         this.timer = 800;
-                        this.game.playerHeath --;
+                        this.game.playerHeath--;
                         this.showScreenWhenPlayerDeath();
                     }
                 }
             }
         });
     }
+    /**
+     * Check if the player colliding with an Enemie
+     * @param {Array} enemy 
+     * @returns boolean
+     */
+    ifColliding(enemy) {
+        return enemy.x < this.x + this.width &&
+            enemy.x + enemy.width > this.x &&
+            enemy.y < this.y + this.height &&
+            enemy.y + enemy.height > this.y
+    }
+
+    whenPlayerInAttac() {
+        return this.currentState === this.states[3];
+    }
 
     showScreenWhenPlayerDeath() {
-        if(this.game.playerHeath <= 0) {
+        if (this.game.playerHeath <= 0) {
             this.game.gameOver = true;
-            let test = new PlayerDeathHtml(this.game);
-            test.gameOverText();            
         }
     }
 }

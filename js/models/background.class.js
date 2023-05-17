@@ -9,6 +9,7 @@ class Layer {
         this.x = 0;
         this.y = 0;
     }
+    
     update() {
         if (this.x < - this.width) {
             this.x = 0;
@@ -16,6 +17,7 @@ class Layer {
             this.x -= this.game.speed * this.speedModi;
         }
     }
+
     draw(ctx) {
         ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
         ctx.drawImage(this.image, this.x + this.width, this.y, this.width, this.height);
@@ -48,11 +50,13 @@ export class Background {
         this.layer6 = new Layer(this.game, this.width, this.height, 2, this.bg6);
         this.backgroundLayers = [this.layer1, this.layer2, this.layer3, this.layer4, this.layer5, this.layer6];
     }
+
     update() {
         this.backgroundLayers.forEach(layer => {
             layer.update();
         })
     }
+
     draw(ctx) {
         this.backgroundLayers.forEach(layer => {
             layer.draw(ctx);

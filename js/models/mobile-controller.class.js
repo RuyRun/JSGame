@@ -40,7 +40,6 @@ export class MobileControlls {
         let buttonHeight = 70;
         let cornerRadius = 5;
         let buttonColor = '#4CAF50';
-
         ctx.fillStyle = buttonColor;
         ctx.beginPath();
         ctx.moveTo(buttonX + cornerRadius, buttonY);

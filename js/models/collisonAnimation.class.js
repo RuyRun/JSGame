@@ -1,6 +1,4 @@
 import { MovableObject } from "./movable-objects.class.js";
-
-
 export class CollisionAnimation extends MovableObject {
     cloudsImage = [
         'assets/clouds/cloud_shape5_5.png',
@@ -8,7 +6,8 @@ export class CollisionAnimation extends MovableObject {
         'assets/clouds/cloud_shape5_3.png',
         'assets/clouds/cloud_shape5_2.png',
         'assets/clouds/cloud_shape5_1.png',
-    ]
+    ];
+
     constructor(game, x, y) {
         super();
         this.game = game;
@@ -25,10 +24,12 @@ export class CollisionAnimation extends MovableObject {
         this.frameIntervall = 1000/this.fps;
         this.frameTimer = 0;
     }
+
     drawImage(ctx) {
         this.loadImage(this.bild);
         this.draw(ctx)
     }
+
     update(deltaTime) {
         if(this.frameTimer > this.frameIntervall){
             this.collisonAnimationFrame(this.cloudsImage)

@@ -22,9 +22,11 @@ export class GameIntro extends DrawObjects {
                 name: 'Info'
             }
         ];
+
         canvas.addEventListener('click', e => {
             this.iterateThroughButtons(e);
         });
+
         setInterval(() => {
             this.checkLandscape()
         }, 200);
@@ -33,11 +35,11 @@ export class GameIntro extends DrawObjects {
     draw() {
         // Bg-Image
         this.ctx.drawImage(this.img, 0, 0, 1100, 500);
-        //Background vom Text
+        //background from the text
         this.ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
         this.ctx.fillRect(this.width / 3, (this.height / 3), 380, 240)
         this.ctx.strokeRect(this.width / 3, (this.height / 3), 380, 240)
-        //text wird gezeichnet
+        //draw text
         this.ctx.textAlign = 'center';
         this.ctx.fillStyle = 'black';
         this.ctx.font = '24px Helvetica';
