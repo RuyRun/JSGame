@@ -82,6 +82,11 @@ export class DrawObjects {
         this.buttons.forEach(btn => {
             this.buttonClick(e, btn)
         });
+        if (typeof this.gameButtons !== 'undefined') {
+            this.gameButtons.forEach(btn => {
+                this.buttonClick(e, btn);
+            });
+        }
     }
 
     /**
@@ -111,9 +116,13 @@ export class DrawObjects {
                 case 'Home':
                     this.startPage = true;
                     break;
+                case 'fullscreen':
+                    this.toggleFullscreen();
+                    break;
                 default:
                     break;
             }
+            
         }
     }
 

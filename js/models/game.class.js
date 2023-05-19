@@ -38,7 +38,6 @@ export class Game {
     }
 
     draw(context) {
-        console.log(this.collisionsAnimation);
         this.background.draw(context);
         this.player.drawImage(context);
         this.drawEnemies(context);

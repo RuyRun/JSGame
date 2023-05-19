@@ -10,7 +10,7 @@ export class GameInformation extends DrawObjects {
             x: (1100 / 2) + 20,
             y: 400,
             name: 'Home'
-        },
+        }
     ];
 
     gameButtons = [
@@ -142,15 +142,14 @@ export class GameInformation extends DrawObjects {
      * Function to switch to full screen mode
      */
     toggleFullscreen() {
-        const test = document.getElementById('canvas1');
-        if (test.requestFullscreen) {
-            test.requestFullscreen();
-        } else if (test.mozRequestFullScreen) { // Firefox
-            test.mozRequestFullScreen();
-        } else if (test.webkitRequestFullscreen) { // Chrome, Safari & Opera
-            test.webkitRequestFullscreen();
-        } else if (test.msRequestFullscreen) { // Internet Explorer
-            test.msRequestFullscreen();
+        if (this.canvas.requestFullscreen) {
+            this.canvas.requestFullscreen();
+        } else if (this.canvas.mozRequestFullScreen) { // Firefox
+            this.canvas.mozRequestFullScreen();
+        } else if (this.canvas.webkitRequestFullscreen) { // Chrome, Safari & Opera
+            this.canvas.webkitRequestFullscreen();
+        } else if (this.canvas.msRequestFullscreen) { // Internet Explorer
+            this.canvas.msRequestFullscreen();
         }
     }
 }

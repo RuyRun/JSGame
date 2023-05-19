@@ -89,9 +89,9 @@ export class Attac extends State {
             this.game.player.setState(states.IDLE, 0);
         } 
         // to easy
-        // else  if (input.includes('ArrowUp') && this.game.player.onGround()) {
-        //     this.game.player.setState(states.JUMPING, 1);
-        // }
+        else  if (input.includes('ArrowUp') && this.game.player.onGround()) {
+            this.game.player.setState(states.JUMPING, 1);
+        }
     }
 }
 
